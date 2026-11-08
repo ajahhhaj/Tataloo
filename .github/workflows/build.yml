@@ -13,7 +13,7 @@ jobs:
       - name: Install system packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev build-essential ccache
+          sudo apt-get install -y git zip unzip autoconf automake libtool libtool-bin autoconf-archive pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev build-essential ccache
       - name: Install Buildozer
         run: pip install "buildozer==1.5.0" "cython==0.29.37"
       - name: Build
