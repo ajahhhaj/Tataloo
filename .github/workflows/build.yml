@@ -1,0 +1,24 @@
+name: Build APK
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev build-essential ccache
+      - name: Install Buildozer
+        run: pip install buildozer "cython<3"
+      - name: Build
+        run: buildozer -v android debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tataloo-code-apk
+          path: bin/*.apk
