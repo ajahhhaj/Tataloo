@@ -1,11 +1,12 @@
-[app]
+[[app]
 title = tataloo Code
 package.name = tataloocode
 package.domain = org.pyro
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf
+icon.filename = %(source.dir)s/icon.png
 version = 0.1
-requirements = python3,kivy
+requirements = python3,kivy,pygments
 orientation = portrait
 fullscreen = 0
 android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,MANAGE_EXTERNAL_STORAGE
@@ -13,6 +14,7 @@ android.api = 33
 android.minapi = 21
 android.archs = arm64-v8a
 android.accept_sdk_license = True
+android.allow_backup = True
 
 [buildozer]
 log_level = 2
