@@ -4,8 +4,10 @@ package com.tataloocode.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,29 +22,45 @@ fun FileExplorer(
 ) {
     Column(
         modifier = Modifier
+            .width(115.dp)
             .fillMaxHeight()
-            .width(145.dp)
             .background(Color(0xFF111111))
-            .padding(8.dp)
+            .verticalScroll(rememberScrollState())
+            .padding(6.dp)
     ) {
         Text(
             "EXPLORER",
             color = Color(0xFFE04460),
-            modifier = Modifier.padding(8.dp)
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier.padding(6.dp)
         )
 
-        HorizontalDivider(color = Color.DarkGray)
+        files.forEach { file ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        if (file == selectedFile)
+                            Color(0xFF302025)
+                        else Color.Transparent
+                    )
+                    .clickable { onFileSelected(file) }
+                    .padding(7.dp)
+            ) {
+                Icon(
+                    Icons.Default.Description,
+                    contentDescription = null,
+                    tint = Color(0xFFE04460),
+                    modifier = Modifier.size(16.dp)
+                )
 
-        LazyColumn {
-            items(files) { file ->
+                Spacer(Modifier.width(5.dp))
+
                 Text(
-                    text = "  $file",
-                    color = if (file == selectedFile)
-                        Color(0xFFE04460) else Color.LightGray,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onFileSelected(file) }
-                        .padding(vertical = 12.dp)
+                    file,
+                    color = Color.White,
+                    style = MaterialTheme.typography.labelSmall,
+                    maxLines = 1
                 )
             }
         }
