@@ -10,18 +10,18 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #0b0b0d;
+    background: #090909;
 }
 
 #editor {
     width: 100%;
     height: 100%;
-    background: #0b0b0d;
+    background: #090909;
 }
 
 .cm-editor {
     height: 100%;
-    background: #0b0b0d;
+    background: #090909;
     color: #eeeeee;
     font-size: 14px;
 }
@@ -32,8 +32,8 @@ body {
 }
 
 .cm-gutters {
-    background: #111114;
-    border-right: 1px solid #252529;
+    background: #111111;
+    border-right: 1px solid #292929;
 }
 
 .cm-activeLine {
@@ -50,4 +50,17 @@ body {
 
 .cm-selectionBackground {
     background: #572020 !important;
+}
+
+.cm-search {
+    background: #171717;
+    padding: 8px;
+    color: white;
+}
+
+.cm-search input {
+    background: #252525;
+    color: white;
+    border: 1px solid #555;
+    padding: 5px;
 }
