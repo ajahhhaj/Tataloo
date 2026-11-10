@@ -1,0 +1,17 @@
+[project]
+name = "tataloo-code"
+version = "1.0.0"
+description = "Acode-inspired mobile code editor built with Flet"
+requires-python = ">=3.9"
+dependencies = [
+    "flet>=0.28.0",
+]
+
+[tool.flet]
+org = "com.tataloocode"
+product = "tataloo Code"
+company = "aMiR Tataloo"
+copyright = "Copyright (C) 2026 aMiR Tataloo"
+
+[tool.flet.app]
+path = "."
