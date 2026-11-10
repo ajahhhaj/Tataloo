@@ -58,7 +58,7 @@ class Console(BoxLayout):
         super().__init__(orientation='vertical', size_hint_y=None, height=dp(190), spacing=dp(4), padding=dp(6), **kwargs)
         self.output=TextInput(text='', readonly=True, multiline=True, size_hint_y=1,
             background_color=rgba('#050505'), foreground_color=rgba('#B9FFC8'), cursor_color=rgba(ACCENT),
-            font_name='data/fonts/RobotoMono-Regular.ttf', font_size='12sp')
+            font_name='Roboto', font_size='12sp')
         self.add_widget(self.output)
     def write(self, value, tag='stdout'):
         stamp=dt.datetime.now().strftime('%H:%M:%S')
@@ -89,7 +89,7 @@ class AcodeApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.tabs=[]; self.active=None; self.loading=False; self.project=None
-        self.settings={}; self.recent=[]; self.font_name='data/fonts/RobotoMono-Regular.ttf'
+        self.settings={}; self.recent=[]; self.font_name='Roboto'
         self.root_dir=Path('/storage/emulated/0')
         if not self.root_dir.exists(): self.root_dir=Path(self.user_data_dir)
         self.root_dir.mkdir(parents=True,exist_ok=True)
