@@ -1,4 +1,4 @@
-[[app]
+[app]
 title = tataloo Code
 package.name = tataloocode
 package.domain = org.pyro
