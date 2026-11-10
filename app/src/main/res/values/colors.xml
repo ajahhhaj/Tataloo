@@ -1,0 +1,9 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tataloo_black">#090909</color>
+    <color name="tataloo_surface">#151515</color>
+    <color name="tataloo_crimson">#B51232</color>
+    <color name="tataloo_white">#FFFFFF</color>
+    <color name="tataloo_gray">#A0A0A0</color>
+</resources>
