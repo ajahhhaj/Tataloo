@@ -1,0 +1,53 @@
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #0b0b0d;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+    background: #0b0b0d;
+}
+
+.cm-editor {
+    height: 100%;
+    background: #0b0b0d;
+    color: #eeeeee;
+    font-size: 14px;
+}
+
+.cm-scroller {
+    overflow: auto;
+    font-family: monospace;
+}
+
+.cm-gutters {
+    background: #111114;
+    border-right: 1px solid #252529;
+}
+
+.cm-activeLine {
+    background: #ffffff08;
+}
+
+.cm-activeLineGutter {
+    background: #ffffff0b;
+}
+
+.cm-cursor {
+    border-left-color: #ff3030;
+}
+
+.cm-selectionBackground {
+    background: #572020 !important;
+}
