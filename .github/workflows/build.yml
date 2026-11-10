@@ -1,30 +1,33 @@
-name: Build APK
+name: Build tataloo Code APK
+
 on:
-  push:
   workflow_dispatch:
+  push:
+    branches: [ main ]
+
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-      - name: Install system packages
+
+      - name: Install Flet
         run: |
-          sudo apt-get update
-          sudo apt-get install -y git zip unzip autoconf automake libtool libtool-bin autoconf-archive pkg-config zlib1g-dev libncurses-dev cmake libffi-dev libssl-dev build-essential ccache
-      - name: Install Buildozer
-        run: pip install "buildozer==1.5.0" "cython==0.29.37"
-      - name: Build
-        env:
-          JAVA_HOME: /usr/lib/jvm/temurin-17-jdk-amd64
-        run: buildozer -v android debug
-      - uses: actions/upload-artifact@v4
+          python -m pip install --upgrade pip
+          python -m pip install "flet>=0.24.0"
+
+      - name: Build APK
+        run: flet build apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: tataloo-code-apk
-          path: bin/*.apk
+          name: tataloo-code-flet-apk
+          path: build/apk/*.apk
+          if-no-files-found: error
