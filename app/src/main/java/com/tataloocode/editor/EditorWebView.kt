@@ -2,11 +2,13 @@
 package com.tataloocode.editor
 
 import android.annotation.SuppressLint
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import org.json.JSONObject
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -16,6 +18,7 @@ fun EditorWebView(
     modifier: Modifier = Modifier
 ) {
     var webView by remember { mutableStateOf<WebView?>(null) }
+    var pageLoaded by remember { mutableStateOf(false) }
 
     AndroidView(
         modifier = modifier,
@@ -23,8 +26,20 @@ fun EditorWebView(
             WebView(context).apply {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
-                settings.allowFileAccess = true
-                webViewClient = WebViewClient()
+                webChromeClient = WebChromeClient()
+
+                webViewClient = object : WebViewClient() {
+                    override fun onPageFinished(
+                        view: WebView,
+                        url: String
+                    ) {
+                        pageLoaded = true
+                        view.evaluateJavascript(
+                            "window.setEditorCode(${JSONObject.quote(code)})",
+                            null
+                        )
+                    }
+                }
 
                 addJavascriptInterface(
                     EditorBridge(onCodeChanged),
@@ -34,16 +49,15 @@ fun EditorWebView(
                 loadUrl("file:///android_asset/editor/index.html")
                 webView = this
             }
-        },
-        update = {
-            if (it !== webView) webView = it
         }
     )
 
-    LaunchedEffect(code, webView) {
-        webView?.evaluateJavascript(
-            "setEditorCode(${org.json.JSONObject.quote(code)})",
-            null
-        )
+    LaunchedEffect(code, pageLoaded) {
+        if (pageLoaded) {
+            webView?.evaluateJavascript(
+                "window.setEditorCode(${JSONObject.quote(code)})",
+                null
+            )
+        }
     }
 }
