@@ -1,27 +1,26 @@
 
 package com.tataloocode.ui
 
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val Crimson = Color(0xFFB51232)
-private val Background = Color(0xFF090909)
-private val SurfaceDark = Color(0xFF151515)
+private val TatalooColors = darkColorScheme(
+    primary = Color(0xFFE04460),
+    onPrimary = Color.White,
+    secondary = Color(0xFFB51232),
+    background = Color(0xFF090909),
+    surface = Color(0xFF151515),
+    onSurface = Color.White
+)
 
 @Composable
-fun EditorTheme(content: @Composable () -> Unit) {
-    val scheme = darkColorScheme(
-        primary = Crimson,
-        background = Background,
-        surface = SurfaceDark,
-        secondary = Color(0xFF8D1830),
-        onBackground = Color.White,
-        onSurface = Color.White
-    )
-
+fun EditorTheme(
+    content: @Composable () -> Unit
+) {
     MaterialTheme(
-        colorScheme = scheme,
+        colorScheme = TatalooColors,
         content = content
     )
 }
