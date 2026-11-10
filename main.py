@@ -102,6 +102,23 @@ class AcodeApp(App):
         self.recent=self.settings.get('recent_files',[])
         self.last_run_globals={}
     def build(self):
+        try:
+            return self._build_real()
+        except Exception:
+            import traceback
+            err = traceback.format_exc()
+            _save_crash(err)
+            box = BoxLayout(orientation='vertical', padding=dp(8))
+            sv = ScrollView()
+            lab = Label(text='CRASH REPORT\n\n' + err, color=rgba('#FF3355'), font_size='11sp',
+                        size_hint_y=None, halign='left', valign='top')
+            lab.bind(width=lambda w, v: setattr(w, 'text_size', (v, None)))
+            lab.bind(texture_size=lambda w, v: setattr(w, 'height', v[1]))
+            sv.add_widget(lab)
+            box.add_widget(sv)
+            return box
+
+    def _build_real(self):
         self.title=APP_NAME
         Window.softinput_mode='below_target'
         root=BoxLayout(orientation='vertical', spacing=dp(4), padding=dp(5))
@@ -358,5 +375,22 @@ class AcodeApp(App):
     def on_stop(self):
         self.save_session();self.save_settings()
 
+def _save_crash(text):
+    import os, tempfile
+    for base in ('/sdcard/Download', '/storage/emulated/0/Download', tempfile.gettempdir()):
+        try:
+            os.makedirs(base, exist_ok=True)
+            with open(os.path.join(base, 'tataloo_crash.txt'), 'w', encoding='utf-8') as f:
+                f.write(text)
+            return base
+        except Exception:
+            continue
+    return None
+
 if __name__ == '__main__':
-    AcodeApp().run()
+    try:
+        AcodeApp().run()
+    except Exception:
+        import traceback
+        _save_crash(traceback.format_exc())
+        raise
