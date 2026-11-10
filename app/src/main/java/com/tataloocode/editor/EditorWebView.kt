@@ -15,6 +15,8 @@ import org.json.JSONObject
 fun EditorWebView(
     code: String,
     onCodeChanged: (String) -> Unit,
+    command: String,
+    commandId: Int,
     modifier: Modifier = Modifier
 ) {
     var webView by remember { mutableStateOf<WebView?>(null) }
@@ -26,6 +28,7 @@ fun EditorWebView(
             WebView(context).apply {
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
+
                 webChromeClient = WebChromeClient()
 
                 webViewClient = object : WebViewClient() {
@@ -58,6 +61,22 @@ fun EditorWebView(
                 "window.setEditorCode(${JSONObject.quote(code)})",
                 null
             )
+        }
+    }
+
+    LaunchedEffect(commandId) {
+        if (pageLoaded && command.isNotBlank()) {
+            webView?.evaluateJavascript(
+                "window.tatalooCommand(${JSONObject.quote(command)})",
+                null
+            )
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            webView?.destroy()
+            webView = null
         }
     }
 }
