@@ -2,8 +2,19 @@
 import { basicSetup } from "codemirror";
 import { EditorView } from "@codemirror/view";
 import { EditorState } from "@codemirror/state";
-import { autocompletion } from "@codemirror/autocomplete";
-import { oneDark } from "@codemirror/theme-one-dark";
+import {
+    autocompletion
+} from "@codemirror/autocomplete";
+import {
+    oneDark
+} from "@codemirror/theme-one-dark";
+import {
+    undo,
+    redo
+} from "@codemirror/commands";
+import {
+    openSearchPanel
+} from "@codemirror/search";
 
 import { python } from "@codemirror/lang-python";
 import { javascript } from "@codemirror/lang-javascript";
@@ -33,6 +44,8 @@ function getLanguage(fileName) {
 
 window.createTatalooEditor = function(code, fileName) {
     const parent = document.getElementById("editor");
+
+    if (!parent) return;
 
     if (view) view.destroy();
 
@@ -80,6 +93,24 @@ window.setEditorCode = function(code) {
 
 window.getEditorCode = function() {
     return view ? view.state.doc.toString() : "";
+};
+
+window.tatalooCommand = function(action) {
+    if (!view) return;
+
+    switch (action) {
+        case "undo":
+            undo(view);
+            break;
+
+        case "redo":
+            redo(view);
+            break;
+
+        case "search":
+            openSearchPanel(view);
+            break;
+    }
 };
 
 function initializeEditor() {
