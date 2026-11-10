@@ -4,10 +4,10 @@ name: Tataloo Code Android Build
 on:
   push:
     branches:
-      - kotlin-native
+      - main
   pull_request:
     branches:
-      - kotlin-native
+      - main
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   build:
-    name: Build Offline Android APK
+    name: Build Tataloo Code APK
     runs-on: ubuntu-latest
 
     steps:
@@ -35,13 +35,13 @@ jobs:
         working-directory: editor-source
         run: npm run build
 
-      - name: Verify editor bundle
+      - name: Verify editor assets
         run: |
           test -f app/src/main/assets/editor/index.html
           test -f app/src/main/assets/editor/editor.js
-          echo "Offline editor ready"
+          echo "Editor assets verified"
 
-      - name: Setup JDK 17
+      - name: Setup JDK
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -52,12 +52,12 @@ jobs:
         with:
           gradle-version: '8.13'
 
-      - name: Build Debug APK
+      - name: Build APK
         run: gradle assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Tataloo-Code-Debug-APK
+          name: Tataloo-Code-APK
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
