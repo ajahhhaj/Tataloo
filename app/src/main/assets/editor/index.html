@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Tataloo Code Editor</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #090909;
+    color: #eeeeee;
+    overflow: hidden;
+    font-family: monospace;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+    padding: 18px;
+    resize: none;
+    border: none;
+    outline: none;
+    background: #090909;
+    color: #eeeeee;
+    font-family: monospace;
+    font-size: 15px;
+    line-height: 1.7;
+    tab-size: 4;
+    caret-color: #e04460;
+    white-space: pre;
+}
+
+#editor::selection {
+    background: #6b1830;
+}
+</style>
+</head>
+
+<body>
+
+<textarea id="editor"
+spellcheck="false"
+autocapitalize="off"
+autocomplete="off"
+autocorrect="off"
+placeholder="Start coding..."></textarea>
+
+<script>
+const editor = document.getElementById("editor");
+
+editor.addEventListener("input", () => {
+    if (window.TatalooBridge) {
+        window.TatalooBridge.onCodeChanged(editor.value);
+    }
+});
+
+editor.addEventListener("keydown", event => {
+    if (event.key === "Tab") {
+        event.preventDefault();
+
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+
+        editor.setRangeText(
+            "    ",
+            start,
+            end,
+            "end"
+        );
+
+        editor.dispatchEvent(new Event("input"));
+    }
+});
+
+function setEditorCode(code) {
+    if (editor.value !== code) {
+        editor.value = code || "";
+    }
+}
+</script>
+
+</body>
+</html>
